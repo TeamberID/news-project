@@ -1,21 +1,20 @@
-import dao.implemetations.UsersDaoImpl;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import services.UserService;
 
 public class Tester {
     public static void main(String[] args) {
-        try {
-            Connection connection = DriverManager.getConnection( "jdbc:postgresql://localhost:5432/news-project",
-                    "postgres",
-                    "postgres");
+        UserService userService = new UserService();
 
+//        if(userService.registr("login1", "pass","pass")){
+//            System.out.println("Yee");
+//        }else{
+//            System.out.println("oooh...");
+//        }
 
-            UsersDaoImpl usersDao = new UsersDaoImpl(connection);
-            usersDao.delete(1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        if(userService.signIn("login1","pass")){
+//            System.out.println("yeeee");
+//        }else {
+//            System.out.println("nooo");
+//        }
+
     }
 }

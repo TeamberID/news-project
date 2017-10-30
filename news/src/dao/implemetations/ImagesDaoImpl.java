@@ -36,7 +36,7 @@ public class ImagesDaoImpl implements ImagesDao{
                         .id(resultSet.getInt("id"))
                         .url(resultSet.getString("url"))
                         .build();
-            } else throw new IllegalArgumentException("User not found");
+            } else throw new IllegalArgumentException("Image not found");
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
@@ -44,7 +44,13 @@ public class ImagesDaoImpl implements ImagesDao{
 
     @Override
     public void delete(Integer id) {
-
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM image WHERE id=?");
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

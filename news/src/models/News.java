@@ -19,6 +19,7 @@ public class News {
     private Date pubDate;
     private Integer imageId;
     private String category;
+    private  Integer rating;
 
     private List<Tag> tags;
 }
