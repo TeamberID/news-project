@@ -18,8 +18,10 @@ public class ImagesDaoImpl implements ImagesDao{
     @Override
     public void save(Image model) {
         try {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO image(url) VALUES(?)");
-            statement.setString(1, model.getUrl());
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO image (id,url) VALUES(?,?)");
+            statement.setInt(1,model.getId());
+            statement.setString(2, model.getUrl());
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -56,5 +58,18 @@ public class ImagesDaoImpl implements ImagesDao{
     @Override
     public void update(Image model) {
 
+    }
+
+    public Integer getSize() {
+        Integer size = 0;
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT MAX(id) FROM image");
+            ResultSet rs =statement.executeQuery();
+            rs.next();
+            size = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return size;
     }
 }

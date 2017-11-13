@@ -15,11 +15,14 @@ public class UserService {
         usersDao = null;
 
         try {
+            Class.forName("org.postgresql.Driver");
             Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/news-project",
                     "postgres",
                     "postgres");
             usersDao = new UsersDaoImpl(connection);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -27,14 +30,14 @@ public class UserService {
 
     public Boolean registr(String login, String pass, String passCheck) {
         if (pass.equals(passCheck)) {
-            if(usersDao.findByLogin(login)==null) {
+            if (usersDao.findByLogin(login) == null) {
                 usersDao.save(User.builder().login(login).pass(DigestUtils.md5Hex(pass)).build());
                 System.out.println("this login is free");
                 return true;
-            }else {
+            } else {
                 System.out.println("this login already exists :c");
             }
-        }  else {
+        } else {
             System.out.println("passwords are different");
         }
         return false;
@@ -42,12 +45,18 @@ public class UserService {
 
     public Boolean signIn(String login, String pass) {
         User user = usersDao.findByLogin(login);
-        if(user!=null) {
+        if (user != null) {
             if (user.getPass().equals(DigestUtils.md5Hex(pass)))
                 return true;
         }
         return false;
     }
 
+    public String getByInfo(String s) {
+        return usersDao.findNameByPas(s);
+    }
 
+    public Boolean isAdmin(String s){
+        return usersDao.isAdByLogin(s);
+    }
 }

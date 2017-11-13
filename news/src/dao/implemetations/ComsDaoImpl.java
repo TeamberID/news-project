@@ -4,6 +4,8 @@ import dao.ComsDao;
 import models.Com;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComsDaoImpl implements ComsDao {
     Connection connection;
@@ -42,6 +44,27 @@ public class ComsDaoImpl implements ComsDao {
                         authorId(resultSet.getInt("author_id")).
                         newsId(resultSet.getInt("news_id")).build();
             } else throw new IllegalArgumentException("Comment not found");
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+
+    public List<Com> findAllByNewsID(Integer newsId) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM com WHERE ORDER BY pub_date WHERE news_id =?");
+            statement.setString(1, String.valueOf(newsId));
+            ResultSet resultSet = statement.executeQuery();
+            List<Com> coms = new ArrayList<>();
+            while (resultSet.next()) {
+                coms.add(Com.builder().
+                        id(resultSet.getInt("id")).
+                        description(resultSet.getString("description")).
+                        pubDate((resultSet.getDate("pub_date"))).
+                        authorId(resultSet.getInt("author_id")).
+                        newsId(resultSet.getInt("news_id")).build());
+            }
+            return coms;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }

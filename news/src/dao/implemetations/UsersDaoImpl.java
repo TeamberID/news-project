@@ -45,6 +45,21 @@ public class UsersDaoImpl implements UsersDao {
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }
+
+    }
+
+
+    public String findNameByPas(String s){
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE pass =?");
+            statement.setString(1, s);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getString("login");
+            } else throw new IllegalArgumentException("User not found");
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override
@@ -75,6 +90,19 @@ public class UsersDaoImpl implements UsersDao {
                         .isAdmin(resultSet.getBoolean("admin_flag"))
                         .build();
             } else return null;
+        } catch (SQLException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public Boolean isAdByLogin(String s) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("SELECT admin_flag FROM users WHERE login = ?");
+            statement.setString(1, s);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getBoolean("admin_flag");
+            } else return false;
         } catch (SQLException e) {
             throw new IllegalArgumentException(e);
         }

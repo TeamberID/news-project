@@ -2,8 +2,7 @@ package models;
 
 import lombok.*;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
 
 @Getter
 @Setter
@@ -18,8 +17,9 @@ public class News {
     private String description;
     private Date pubDate;
     private Integer imageId;
-    private String category;
+    private Integer tagId;
+    private String imageSrc;
+    private Tag tag;
     private  Integer rating;
 
-    private List<Tag> tags;
 }
