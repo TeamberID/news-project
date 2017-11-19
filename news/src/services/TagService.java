@@ -1,29 +1,18 @@
 package services;
 
+import config.SingleConnection;
 import dao.implemetations.TagsDaoImpl;
 import models.Tag;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class TagService {
     private TagsDaoImpl tagsDao;
 
 
     public TagService(){
-        tagsDao = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/news-project",
-                    "postgres",
-                    "postgres");
-            tagsDao = new TagsDaoImpl(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        Connection connection = SingleConnection.getConnection();
+        tagsDao = new TagsDaoImpl(connection);
     }
 
     public Tag get(Integer i){

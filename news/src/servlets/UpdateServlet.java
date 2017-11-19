@@ -4,12 +4,14 @@ import config.ConfigSingleton;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import models.Com;
 import models.Image;
 import models.News;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import services.ComService;
 import services.ImageService;
 import services.NewsService;
 
@@ -18,17 +20,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.sql.Date;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-@WebServlet(name = "CreateServlet")
-public class CreateServlet extends HttpServlet {
+@WebServlet(name = "UpdateServlet")
+public class UpdateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        Integer newsId = null;
         String title = null;
         String description = null;
         String category = null;
@@ -48,7 +51,8 @@ public class CreateServlet extends HttpServlet {
                             title = new String(fieldvalue.getBytes("iso-8859-1"), "UTF-8");
                         if (fieldname.equals("description"))
                             description = new String(fieldvalue.getBytes("iso-8859-1"), "UTF-8");
-
+                        if (fieldname.equals("new_id"))
+                            newsId = Integer.valueOf(new String(fieldvalue.getBytes("iso-8859-1"), "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
@@ -65,24 +69,41 @@ public class CreateServlet extends HttpServlet {
             e.printStackTrace();
         }
         Integer tagId = getTagId(category);
-        if (!"".equals(title) && !"".equals(description)) {
-            addNews(title, description, number, tagId, url);
-            response.sendRedirect("/main");
+        if (!"".equals(title) && !"".equals(description) && !(newsId == null)) {
+            updateNews(newsId,title, description, number, tagId, url);
+            response.sendRedirect("/update?id="+newsId);
         }else {
-            response.sendRedirect("/create");
+            response.sendRedirect("/admin?id="+newsId);
         }
-    }
 
+
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Configuration cfg = ConfigSingleton.getConfig(request.getServletContext());
-        Template tmpl = cfg.getTemplate("create.ftl");
-        try {
-            tmpl.process(getTop(), response.getWriter());
-        } catch (TemplateException e) {
-            e.printStackTrace();
+        Template tmpl = cfg.getTemplate("update.ftl");
+        NewsService newsService = new NewsService();
+        ComService comService = new ComService();
+        String idS = request.getParameter("id");
+        if(idS==null)
+            response.sendRedirect("/admin");
+        else {
+            Integer newsId = Integer.valueOf(idS);
+            News news = newsService.get(newsId);
+            List<Com> coms = comService.getAll(newsId);
+            Map<String, Object> input = new HashMap<>();
+            input.put("coms",coms);
+            input.put("new", news);
+            input.put("news_id",newsId);
+            try {
+                tmpl.process(input, response.getWriter());
+            } catch (TemplateException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+
 
 
     private Integer addImage() {
@@ -96,26 +117,17 @@ public class CreateServlet extends HttpServlet {
     }
 
 
-    private void addNews(String title, String description, Integer number, Integer tagId, String url) {
-        Date date = new Date(new java.util.Date().getTime());
+    private void updateNews(Integer id, String title, String description, Integer number, Integer tagId, String url) {
         NewsService newsService = new NewsService();
-        News news = News.builder().title(title).description(description)
+        News news = News.builder().id(id).title(title).description(description)
                 .imageId(number)
-                .pubDate(date)
                 .rating(0)
                 .tagId(tagId)
+                .imageId(number)
                 .imageSrc(url).build();
-        newsService.add(news);
+        newsService.update(news);
     }
 
-
-    private Map<String, Object> getTop() {
-        NewsService newsService = new NewsService();
-        List<News> topNews = newsService.getTop();
-        Map<String, Object> input = new HashMap<>();
-        input.put("topNews", topNews);
-        return input;
-    }
 
     public Integer getTagId(String category) {
         Integer tagId = null;

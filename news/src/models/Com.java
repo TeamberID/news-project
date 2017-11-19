@@ -2,7 +2,7 @@ package models;
 
 import lombok.*;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Getter
 @Setter
@@ -17,4 +17,5 @@ public class Com {
     private Date pubDate;
     private Integer authorId;
     private Integer newsId;
+    private User user;
 }

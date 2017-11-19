@@ -17,9 +17,7 @@ public class IsAuthFilter implements Filter {
         HttpServletRequest r = (HttpServletRequest) req;
         HttpSession session = r.getSession();
         String uName = (String) session.getAttribute("current_user");
-        if (uName != null) {
-            chain.doFilter(req, resp);
-        } else {
+        if (uName == null) {
             Cookie[] cookies = r.getCookies();
             if (cookies != null) {
                 UserService userService = new UserService();
@@ -28,15 +26,14 @@ public class IsAuthFilter implements Filter {
                     if ("user".equals(cookie.getName())) {
                         String s = cookie.getValue();
                         String userName = userService.getByInfo(DigestUtils.md5Hex(s));
-                        if(userName!= null) {
+                        if (userName != null) {
                             session.setAttribute("current_user", userName);
-                            break;
                         }
                     }
                 }
             }
         }
-
+        chain.doFilter(req,resp);
     }
 
     public void init(FilterConfig config) throws ServletException {

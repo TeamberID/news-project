@@ -8,6 +8,8 @@ import javax.servlet.ServletContext;
 
 public class ConfigSingleton {
     private static Configuration cfg = null;
+
+
     public static Configuration getConfig(ServletContext sc) {
         if (cfg == null){
             cfg = new Configuration();

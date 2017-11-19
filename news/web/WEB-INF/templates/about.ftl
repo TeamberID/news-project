@@ -3,16 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="robots" content="noindex, nofollow">
-
     <title>About</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="bootstrap-3.3.0/dist/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel=stylesheet href="css/styles.css">
     <script type="text/javascript"
-            src="https://gc.kis.v2.scr.kaspersky-labs.com/B7DD84F8-BA7A-494C-9DD5-1283CD1DB935/main.js"
+            src="bootstrap-3.3.0/dist/js/bootstrap.min.js"
             charset="UTF-8"></script>
     <script src="js/jquery-3.2.1.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="bootstrap-3.3.0/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         window.alert = function () {
         };

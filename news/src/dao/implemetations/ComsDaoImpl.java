@@ -2,6 +2,7 @@ package dao.implemetations;
 
 import dao.ComsDao;
 import models.Com;
+import services.UserService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class ComsDaoImpl implements ComsDao {
     Connection connection;
+    UserService userService = new UserService();
 
     public ComsDaoImpl(Connection connection){
         this.connection = connection;
@@ -20,9 +22,9 @@ public class ComsDaoImpl implements ComsDao {
             PreparedStatement statement = connection.
                     prepareStatement("INSERT INTO com(description,pub_date,author_id,news_id) VALUES(?,?,?,?)");
             statement.setString(1, model.getDescription());
-            statement.setDate(2, (Date) model.getPubDate());
+            statement.setDate(2, model.getPubDate());
             statement.setInt(3, model.getAuthorId());
-            statement.setInt(4,model.getNewsId());
+            statement.setInt(4, model.getNewsId());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,8 +54,8 @@ public class ComsDaoImpl implements ComsDao {
 
     public List<Com> findAllByNewsID(Integer newsId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM com WHERE ORDER BY pub_date WHERE news_id =?");
-            statement.setString(1, String.valueOf(newsId));
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM com WHERE news_id =? ORDER BY pub_date");
+            statement.setInt(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             List<Com> coms = new ArrayList<>();
             while (resultSet.next()) {
@@ -62,6 +64,7 @@ public class ComsDaoImpl implements ComsDao {
                         description(resultSet.getString("description")).
                         pubDate((resultSet.getDate("pub_date"))).
                         authorId(resultSet.getInt("author_id")).
+                        user(userService.getUser(resultSet.getInt("author_id"))).
                         newsId(resultSet.getInt("news_id")).build());
             }
             return coms;
@@ -85,5 +88,15 @@ public class ComsDaoImpl implements ComsDao {
     @Override
     public void update(Com model) {
 
+    }
+
+    public void deleteByNewsId(Integer id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM com WHERE news_id=?");
+            statement.setInt(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

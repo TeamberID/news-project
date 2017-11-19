@@ -1,10 +1,9 @@
 package filters;
 
 import javax.servlet.*;
-import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 
-public class UtfFilter extends HttpServlet implements Filter {
+public class UtfFilter implements Filter {
 
     public void init(FilterConfig arg0) throws ServletException {
     }
@@ -14,6 +13,11 @@ public class UtfFilter extends HttpServlet implements Filter {
         response.setContentType("text/html;charset=utf-8");
         request.setCharacterEncoding("utf8");
         filterChain.doFilter(request, response);
+
+    }
+
+    @Override
+    public void destroy() {
 
     }
 }

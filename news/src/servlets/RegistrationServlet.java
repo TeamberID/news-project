@@ -14,15 +14,20 @@ import java.io.IOException;
 @WebServlet(name = "RegistrationServlet")
 public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        UserService userService = new UserService();
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        String checkPassword = request.getParameter("checkPassword");
-
-        if(userService.registr(login,password,checkPassword)){
+        HttpSession session = request.getSession();
+        if (session.getAttribute("current_user") != null)
             response.sendRedirect("/main");
-        } else{
-            response.sendRedirect("/registration");
+        else {
+            UserService userService = new UserService();
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
+            String checkPassword = request.getParameter("checkPassword");
+
+            if (userService.registr(login, password, checkPassword)) {
+                response.sendRedirect("/main");
+            } else {
+                response.sendRedirect("/registration");
+            }
         }
     }
 

@@ -21,7 +21,7 @@ public class NewsDaoImpl implements NewsDao {
                     "INSERT INTO news (title,description,pub_date,image_id,tag_id) VALUES(?,?,?,?,?)");
             statement.setString(1, model.getTitle());
             statement.setString(2, model.getDescription());
-            statement.setDate(3, (model.getPubDate()));
+            statement.setDate(3, model.getPubDate());
             statement.setInt(4, model.getImageId());
             statement.setInt(5,model.getTagId());
             statement.execute();
@@ -89,13 +89,13 @@ public class NewsDaoImpl implements NewsDao {
     @Override
     public void update(News model) {
         try{
-            PreparedStatement statement = connection.prepareStatement("UPDATE news SET title = ?, description = ?, pub_date = ?, image_id = ?, tag_id = ? WHERE id = ?");
+            PreparedStatement statement = connection.prepareStatement("UPDATE news SET title = ?, description = ?, image_id = ?, tag_id = ? WHERE id = ?");
             statement.setString(1,model.getTitle());
             statement.setString(2,model.getDescription());
-            statement.setDate(3,  model.getPubDate());
-            statement.setInt(4,model.getImageId());
-            statement.setInt(5,model.getTagId());
-            statement.setInt(6,model.getId());
+            statement.setInt(3,model.getImageId());
+            statement.setInt(4,model.getTagId());
+            statement.setInt(5,model.getId());
+            statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -154,7 +154,7 @@ public class NewsDaoImpl implements NewsDao {
         List<News> news = new ArrayList<>();
         try {
             statement = connection.prepareStatement("SELECT * FROM news WHERE news.title LIKE ?;"); // Needs to be checked
-            statement.setString(1,"'%"+s+"%'");
+            statement.setString(1,"%"+s+"%");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 news.add( News.builder().

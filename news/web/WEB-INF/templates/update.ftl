@@ -33,32 +33,26 @@
 
 
 <div id="wrapper">
-<#include "header.ftl">
 
     <div class="overlay"></div>
-    <!-- Sidebar -->
-<#include "side.ftl">
-    <!-- /#sidebar-wrapper -->
 
-    <!-- Page Content -->
+    <h2 style="text-align: center">Редактирование новости</h2>
+
     <div id="page-content-wrapper">
-        <button type="button" class="hamburger is-closed" data-toggle="offcanvas">
-            <span class="hamb-top"></span>
-            <span class="hamb-middle"></span>
-            <span class="hamb-bottom"></span>
-        </button>
+
 
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <div class="well" style="padding-bottom: 50px">
-                        <form method="post" enctype="multipart/form-data" action="/create">
+                        <form method="post" enctype="multipart/form-data" action="/update">
                             <h3><strong>Название</strong></h3>
-                            <input type="text" id="title" name="title" style="width: 700px">
+                            <input type="text" id="title" name="title" style="width: 700px" value="${new.title}">
                             <br>
                             <h3><strong>Текст новости</strong></h3>
-                            <textarea name="description" id="description" style="width: 700px; height: 350px; resize:none"></textarea>
+                            <textarea name="description" id="description" style="width: 700px; height: 350px; resize:none">${new.description}</textarea>
 
+                            <input type="hidden" name="new_id" value="${new.id}">
 
                             <select name="category" id="category">
                                 <option value="sports">Спорт</option>
@@ -78,28 +72,30 @@
                         <br>
                     </div>
                 </div>
-            <#include "top.ftl">
             </div>
         </div>
     </div>
-    <!-- /#page-content-wrapper -->
 
-</div>
-<!-- /#wrapper -->
-<#include "login.ftl">
-<#include  "registr.ftl">
+    <h3 style="text-align: center">Комментарии</h3>
 
-<script src="js/menu.js"></script>
-
-<footer class="container-fluid text-center bg-lightgray">
-    <div class="copyrights" style="margin-top:25px;">
-        <p>E-mail: email@example.com
-            <br>
-            <span>--------</span></p>
-        <p><a href="/about" target="_blank">О нас<i class="fa fa-linkedin-square" aria-hidden="true"></i></a></p>
+<#list coms as com>
+    <div class="row comment" style="margin-top: 45px">
+        <div class="comment-date">${com.pubDate}</div>
+        <div class="col-md-2">
+            <div class="to-centre">${com.user.login}</div>
+        </div>
+        <p class="col-md-10" style="margin-left: 0">
+        ${com.description}
+        </p>
+        <form action="/updatecom" method="post">
+            <input type="hidden" value="${com.id}" name="com_id">
+            <input type="hidden" value="${new.id}" name="new_id">
+            <input type="submit" value="УДАЛИТЬ КОММЕНТАРИЙ">
+        </form>
     </div>
-</footer>
-
+<br><br>
+</#list>
+</div>
 
 </body>
 </html>

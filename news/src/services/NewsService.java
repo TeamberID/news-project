@@ -1,11 +1,10 @@
 package services;
 
+import config.SingleConnection;
 import dao.implemetations.NewsDaoImpl;
 import models.News;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 public class NewsService {
@@ -14,18 +13,9 @@ public class NewsService {
     private TagService tagService = new TagService();
 
     public NewsService(){
-        newsDao = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/news-project",
-                    "postgres",
-                    "postgres");
-            newsDao = new NewsDaoImpl(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+
+        Connection connection = SingleConnection.getConnection();
+        newsDao = new NewsDaoImpl(connection);
     }
 
     private void service(Integer i, List<News> news){
@@ -89,6 +79,8 @@ public class NewsService {
         newsDao.update(news);
     }
     public void delete(Integer id){
+        ComService comService = new ComService();
+        comService.deleteByNewsId(id);
         newsDao.delete(id);
     }
 

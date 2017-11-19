@@ -17,10 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@WebServlet(name = "MainServlet")
-public class
-
-MainServlet extends HttpServlet {
+@WebServlet(name = "SearchServlet")
+public class SearchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
@@ -28,35 +26,10 @@ MainServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         NewsService newsService = new NewsService();
         Configuration cfg = ConfigSingleton.getConfig(request.getServletContext());
-        Template tmpl = cfg.getTemplate("index.ftl");
+        Template tmpl = cfg.getTemplate("search.ftl");
         List<News> news= null;
         String name = request.getParameter("name");
-        if (name == null) {
-            news = newsService.getAll();
-        } else {
-            switch (name) {
-                case "sports":
-                    news = newsService.getAllByCategory(1);
-                    break;
-                case "politics":
-                    news = newsService.getAllByCategory(2);
-                    break;
-                case "science":
-                    news = newsService.getAllByCategory(3);
-                    break;
-                case "economics":
-                    news = newsService.getAllByCategory(4);
-                    break;
-                case "world":
-                    news = newsService.getAllByCategory(5);
-                    break;
-                case "culture":
-                    news = newsService.getAllByCategory(6);
-                    break;
-            }
-        }
-
-
+        news = newsService.search(name);
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
         input.put("news", news);
@@ -68,6 +41,4 @@ MainServlet extends HttpServlet {
         }
 
     }
-
-
 }

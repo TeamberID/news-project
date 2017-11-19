@@ -1,39 +1,30 @@
 package services;
 
+import config.SingleConnection;
 import dao.implemetations.UsersDaoImpl;
 import models.User;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class UserService {
     private UsersDaoImpl usersDao;
 
     public UserService() {
-        usersDao = null;
 
-        try {
-            Class.forName("org.postgresql.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/news-project",
-                    "postgres",
-                    "postgres");
-            usersDao = new UsersDaoImpl(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        Connection connection = SingleConnection.getConnection();
+        usersDao = new UsersDaoImpl(connection);
     }
 
 
     public Boolean registr(String login, String pass, String passCheck) {
         if (pass.equals(passCheck)) {
             if (usersDao.findByLogin(login) == null) {
-                usersDao.save(User.builder().login(login).pass(DigestUtils.md5Hex(pass)).build());
-                System.out.println("this login is free");
-                return true;
+                if(! "".equals(login) && ! "".equals(pass)) {
+                    usersDao.save(User.builder().login(login).pass(DigestUtils.md5Hex(pass)).build());
+                    System.out.println("this login is free");
+                    return true;
+                }
             } else {
                 System.out.println("this login already exists :c");
             }
@@ -46,14 +37,24 @@ public class UserService {
     public Boolean signIn(String login, String pass) {
         User user = usersDao.findByLogin(login);
         if (user != null) {
-            if (user.getPass().equals(DigestUtils.md5Hex(pass)))
-                return true;
+            if (! "".equals(login) && ! "".equals(pass) ) {
+                if (user.getPass().equals(DigestUtils.md5Hex(pass)))
+                    return true;
+            }
         }
         return false;
     }
 
-    public String getByInfo(String s) {
-        return usersDao.findNameByPas(s);
+    public String getByInfo(String pass) {
+        return usersDao.findNameByPas(pass);
+    }
+
+    public Integer getUserID(String login){
+        return usersDao.findByLogin(login).getId();
+    }
+
+    public User getUser(Integer id){
+        return usersDao.find(id);
     }
 
     public Boolean isAdmin(String s){
