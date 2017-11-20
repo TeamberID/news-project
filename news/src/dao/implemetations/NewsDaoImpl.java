@@ -35,6 +35,10 @@ public class NewsDaoImpl implements NewsDao {
         try {
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM news WHERE id =?");
             statement.setInt(1, id);
+            PreparedStatement statement2 = connection.prepareStatement("UPDATE news SET rating = ? WHERE id = ?");
+            statement2.setInt(1,getRating(id)+1);
+            statement2.setInt(2,id);
+            statement2.execute();
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 return News.builder().
@@ -52,11 +56,24 @@ public class NewsDaoImpl implements NewsDao {
         }
     }
 
+    private Integer getRating(Integer id) {
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM  news WHERE ID = ?");
+            ps.setInt(1,id);
+            ResultSet resultSet = ps.executeQuery();
+            if(resultSet.next()){
+                return resultSet.getInt("rating");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } return 0;
+    }
+
     public List<News> findAll(){
         PreparedStatement statement = null;
         List<News> news = new ArrayList<>();
         try {
-            statement = connection.prepareStatement("SELECT * FROM news ORDER BY pub_date");
+            statement = connection.prepareStatement("SELECT * FROM news ORDER BY pub_date DESC, rating DESC");
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
                 news.add( News.builder().

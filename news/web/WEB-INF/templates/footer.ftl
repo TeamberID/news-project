@@ -7,5 +7,5 @@
     </div>
 
 
-    <h2 style="color: #585858"><a  href="/admin">ADMIN  PANEL <br/>TOP SECRET!</a></h2>
+
 </footer>

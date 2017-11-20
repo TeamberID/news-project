@@ -114,6 +114,7 @@ public class CreateServlet extends HttpServlet {
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
         input.put("topNews", topNews);
+
         return input;
     }
 

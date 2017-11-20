@@ -57,7 +57,7 @@
                         <h3><strong>${new.title}</strong></h3>
                         <br>
                         <p class="to-centre">
-                            <img style="border-radius: 10px" src="${new.imageSrc}" width="300" height="300">
+                            <img style="border-radius: 10px" src="${new.imageSrc}" width="auto" height="300">
                         </p>
                         <br>
                         <p>${new.description}

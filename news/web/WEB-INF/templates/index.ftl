@@ -54,15 +54,17 @@
 <div class="container">
     <div class="container col-md-8">
     <#list news as new>
+        <br>
         <div class="row">
             <div class="col-md-12">
-                <div class="block-grid block-left news-block" style="
+                <div class="block-grid news-block" style="
+                            width: 650px;
                             background-image: url('${new.imageSrc}');
                             ">
                     <div class="date">
                         <a href="/news?id=${new.id}">
-                            <h3><strong>${new.pubDate}</strong></h3>
-                            <p>${new.title}</p>
+                            <p>${new.pubDate}</p>
+                           <p style="font-size: 20px">${new.title}</p>
                         </a>
                     </div>
                 </div>

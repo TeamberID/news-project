@@ -25,8 +25,10 @@ public class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("current_user") != null)
+        if (session.getAttribute("current_user") != null) {
+            session.removeAttribute("current_user");
             response.sendRedirect("/main");
+        }
         else {
             UserService userService = new UserService();
             String username = request.getParameter("username");

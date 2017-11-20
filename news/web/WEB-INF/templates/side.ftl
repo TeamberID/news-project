@@ -20,6 +20,8 @@
                 </div>
             </div>
         </li>
-        <li><a href="/create">Предложить новость</a></li>
+
+        <li><a href="/create">Добавить новость</a></li>
+
     </ul>
 </nav>

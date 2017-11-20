@@ -71,7 +71,7 @@ public class UpdateServlet extends HttpServlet {
         Integer tagId = getTagId(category);
         if (!"".equals(title) && !"".equals(description) && !(newsId == null)) {
             updateNews(newsId,title, description, number, tagId, url);
-            response.sendRedirect("/update?id="+newsId);
+            response.sendRedirect("/admin");
         }else {
             response.sendRedirect("/admin?id="+newsId);
         }

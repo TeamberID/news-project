@@ -131,7 +131,6 @@
         <url-pattern>/search</url-pattern>
     </servlet-mapping>
 
-
     <filter>
         <filter-name>authFilter</filter-name>
         <filter-class>filters.IsAuthFilter</filter-class>
@@ -150,6 +149,7 @@
     <filter-mapping>
         <filter-name>adminFilter</filter-name>
         <url-pattern>/create</url-pattern>
+        <url-pattern>/admin</url-pattern>
     </filter-mapping>
 
 

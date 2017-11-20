@@ -26,11 +26,22 @@ MainServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        NewsService newsService = new NewsService();
         Configuration cfg = ConfigSingleton.getConfig(request.getServletContext());
         Template tmpl = cfg.getTemplate("index.ftl");
-        List<News> news= null;
         String name = request.getParameter("name");
+        List<News> news = getNews(name);
+        try {
+            tmpl.process(getTop(request, news), response.getWriter());
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private List<News> getNews(String name) {
+        NewsService newsService = new NewsService();
+        List<News> news = null;
         if (name == null) {
             news = newsService.getAll();
         } else {
@@ -55,18 +66,21 @@ MainServlet extends HttpServlet {
                     break;
             }
         }
+        return news;
+    }
 
-
+    private Map<String, Object> getTop(HttpServletRequest request, List<News> news) {
+        NewsService newsService = new NewsService();
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
-        input.put("news", news);
         input.put("topNews", topNews);
-        try {
-            tmpl.process(input, response.getWriter());
-        } catch (TemplateException e) {
-            e.printStackTrace();
+        input.put("news",news);
+        if (request.getSession().getAttribute("admin") != null)
+            input.put("admin", true);
+        else{
+            input.put("admin",false);
         }
-
+        return input;
     }
 
 

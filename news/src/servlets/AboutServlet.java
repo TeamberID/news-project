@@ -30,6 +30,7 @@ public class AboutServlet extends HttpServlet {
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
         input.put("topNews", topNews);
+
         try {
             tmpl.process(input, response.getWriter());
         } catch (TemplateException e) {
@@ -37,4 +38,6 @@ public class AboutServlet extends HttpServlet {
         }
 
     }
+
+
 }

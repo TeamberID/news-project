@@ -54,7 +54,7 @@ public class ComsDaoImpl implements ComsDao {
 
     public List<Com> findAllByNewsID(Integer newsId) {
         try {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM com WHERE news_id =? ORDER BY pub_date");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM com WHERE news_id =? ORDER BY pub_date DESC, id DESC");
             statement.setInt(1, newsId);
             ResultSet resultSet = statement.executeQuery();
             List<Com> coms = new ArrayList<>();

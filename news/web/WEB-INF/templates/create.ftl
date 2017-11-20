@@ -96,6 +96,7 @@
         <p>E-mail: email@example.com
             <br>
             <span>--------</span></p>
+            <h2 style="color: #585858"><a  href="/admin">ADMIN  PANEL <br/>TOP SECRET!</a></h2>
         <p><a href="/about" target="_blank">О нас<i class="fa fa-linkedin-square" aria-hidden="true"></i></a></p>
     </div>
 </footer>
