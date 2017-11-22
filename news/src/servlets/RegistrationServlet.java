@@ -33,7 +33,7 @@ public class RegistrationServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Configuration cfg = ConfigSingleton.getConfig(request.getServletContext());
-        Template tmpl = cfg.getTemplate("registr.ftl");
+        Template tmpl = cfg.getTemplate("registr1.ftl");
         try {
             tmpl.process(null, response.getWriter());
         } catch (TemplateException e) {

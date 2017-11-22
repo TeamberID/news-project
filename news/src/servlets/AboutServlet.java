@@ -30,14 +30,14 @@ public class AboutServlet extends HttpServlet {
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
         input.put("topNews", topNews);
-
+        input.put("cur", request.getSession().getAttribute("current_user"));
         try {
             tmpl.process(input, response.getWriter());
         } catch (TemplateException e) {
             e.printStackTrace();
         }
-
     }
+
 
 
 }

@@ -78,7 +78,7 @@ public class CreateServlet extends HttpServlet {
         Configuration cfg = ConfigSingleton.getConfig(request.getServletContext());
         Template tmpl = cfg.getTemplate("create.ftl");
         try {
-            tmpl.process(getTop(), response.getWriter());
+            tmpl.process(getTop(request), response.getWriter());
         } catch (TemplateException e) {
             e.printStackTrace();
         }
@@ -109,12 +109,12 @@ public class CreateServlet extends HttpServlet {
     }
 
 
-    private Map<String, Object> getTop() {
+    private Map<String, Object> getTop(HttpServletRequest request) {
         NewsService newsService = new NewsService();
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
+        input.put("cur", request.getSession().getAttribute("current_user"));
         input.put("topNews", topNews);
-
         return input;
     }
 

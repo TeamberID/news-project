@@ -33,6 +33,7 @@ public class SearchServlet extends HttpServlet {
         List<News> topNews = newsService.getTop();
         Map<String, Object> input = new HashMap<>();
         input.put("news", news);
+        input.put("cur", request.getSession().getAttribute("current_user"));
         input.put("topNews", topNews);
         try {
             tmpl.process(input, response.getWriter());

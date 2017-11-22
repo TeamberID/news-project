@@ -30,6 +30,7 @@ MainServlet extends HttpServlet {
         Template tmpl = cfg.getTemplate("index.ftl");
         String name = request.getParameter("name");
         List<News> news = getNews(name);
+
         try {
             tmpl.process(getTop(request, news), response.getWriter());
         } catch (TemplateException e) {
@@ -80,6 +81,7 @@ MainServlet extends HttpServlet {
         else{
             input.put("admin",false);
         }
+        input.put("cur", request.getSession().getAttribute("current_user"));
         return input;
     }
 

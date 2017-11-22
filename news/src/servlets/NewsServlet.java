@@ -55,6 +55,7 @@ public class NewsServlet extends HttpServlet {
             Map<String, Object> input = getTop();
             input.put("coms",coms);
             input.put("new", news);
+            input.put("cur", request.getSession().getAttribute("current_user"));
             input.put("news_id",newsId);
             try {
                 tmpl.process(input, response.getWriter());

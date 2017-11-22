@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="news-project@localhost">
+  <database-model serializer="dbm" rdbms="POSTGRES" format-version="4.4">
+    <root id="1"/>
+    <database id="2" parent="1" name="news-project">
+      <ObjectId>33540</ObjectId>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <database id="3" parent="1" name="postgres">
+      <ObjectId>12401</ObjectId>
+    </database>
+    <database id="4" parent="1" name="java_enterprise_db">
+      <ObjectId>16393</ObjectId>
+    </database>
+    <database id="5" parent="1" name="music">
+      <ObjectId>16519</ObjectId>
+    </database>
+    <database id="6" parent="1" name="db">
+      <ObjectId>24834</ObjectId>
+    </database>
+    <database id="7" parent="1" name="meets">
+      <ObjectId>24853</ObjectId>
+    </database>
+    <database id="8" parent="1" name="hz">
+      <ObjectId>42199</ObjectId>
+    </database>
+    <schema id="9" parent="2" name="public">
+      <ObjectId>2200</ObjectId>
+      <IntrospectionTimestamp>2017-11-19.13:21:57.520</IntrospectionTimestamp>
+      <IntrospectionStateNumber>1061</IntrospectionStateNumber>
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="10" parent="2" name="pg_catalog">
+      <ObjectId>11</ObjectId>
+    </schema>
+    <schema id="11" parent="2" name="pg_toast">
+      <ObjectId>99</ObjectId>
+    </schema>
+    <schema id="12" parent="2" name="pg_temp_1">
+      <ObjectId>11848</ObjectId>
+    </schema>
+    <schema id="13" parent="2" name="pg_toast_temp_1">
+      <ObjectId>11849</ObjectId>
+    </schema>
+    <schema id="14" parent="2" name="information_schema">
+      <ObjectId>12113</ObjectId>
+    </schema>
+    <sequence id="15" parent="9" name="com_id_seq">
+      <ObjectId>33597</ObjectId>
+      <StateNumber>810</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="16" parent="9" name="image_id_seq">
+      <ObjectId>33541</ObjectId>
+      <StateNumber>804</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="17" parent="9" name="news_id_seq">
+      <ObjectId>33568</ObjectId>
+      <StateNumber>808</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="18" parent="9" name="tag_id_seq">
+      <ObjectId>33557</ObjectId>
+      <StateNumber>806</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <sequence id="19" parent="9" name="users_id_seq">
+      <ObjectId>33549</ObjectId>
+      <StateNumber>805</StateNumber>
+      <SequenceIdentity>1</SequenceIdentity>
+      <BelongsToColumn>1</BelongsToColumn>
+    </sequence>
+    <table id="20" parent="9" name="com">
+      <ObjectId>33599</ObjectId>
+      <StateNumber>810</StateNumber>
+    </table>
+    <table id="21" parent="9" name="image">
+      <ObjectId>33543</ObjectId>
+      <StateNumber>810</StateNumber>
+    </table>
+    <table id="22" parent="9" name="news">
+      <ObjectId>33570</ObjectId>
+      <StateNumber>957</StateNumber>
+    </table>
+    <table id="23" parent="9" name="tag">
+      <ObjectId>33559</ObjectId>
+      <StateNumber>957</StateNumber>
+    </table>
+    <table id="24" parent="9" name="users">
+      <ObjectId>33551</ObjectId>
+      <StateNumber>899</StateNumber>
+    </table>
+    <column id="25" parent="20" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>810</StateNumber>
+      <SequenceName>com_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;com_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="26" parent="20" name="description">
+      <Position>2</Position>
+      <DataType>varchar(400)|0</DataType>
+      <StateNumber>1061</StateNumber>
+    </column>
+    <column id="27" parent="20" name="pub_date">
+      <Position>3</Position>
+      <DataType>date|0</DataType>
+      <StateNumber>810</StateNumber>
+    </column>
+    <column id="28" parent="20" name="author_id">
+      <Position>4</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>810</StateNumber>
+    </column>
+    <column id="29" parent="20" name="news_id">
+      <Position>6</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>810</StateNumber>
+    </column>
+    <index id="30" parent="20" name="com_pkey">
+      <ObjectId>33603</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="31" parent="20" name="com_pkey">
+      <ObjectId>33604</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>com_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="32" parent="20" name="com_author_id_fkey">
+      <ObjectId>33605</ObjectId>
+      <ColNames>author_id</ColNames>
+      <RefTableId>33551</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>users</RefTableName>
+      <RefKeyName>users_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="33" parent="20" name="com_news_id_fkey">
+      <ObjectId>33615</ObjectId>
+      <ColNames>news_id</ColNames>
+      <RefTableId>33570</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>news</RefTableName>
+      <RefKeyName>news_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="34" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>980</StateNumber>
+      <SequenceName>image_id_seq</SequenceName>
+    </column>
+    <column id="35" parent="21" name="url">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <StateNumber>804</StateNumber>
+    </column>
+    <index id="36" parent="21" name="image_pkey">
+      <ObjectId>33547</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="37" parent="21" name="image_pkey">
+      <ObjectId>33548</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>image_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="38" parent="22" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>808</StateNumber>
+      <SequenceName>news_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;news_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="39" parent="22" name="title">
+      <Position>2</Position>
+      <DataType>varchar(100)|0</DataType>
+      <StateNumber>808</StateNumber>
+    </column>
+    <column id="40" parent="22" name="description">
+      <Position>3</Position>
+      <DataType>varchar(4000)|0</DataType>
+      <StateNumber>808</StateNumber>
+    </column>
+    <column id="41" parent="22" name="pub_date">
+      <Position>4</Position>
+      <DataType>date|0</DataType>
+      <StateNumber>808</StateNumber>
+    </column>
+    <column id="42" parent="22" name="image_id">
+      <Position>5</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>808</StateNumber>
+    </column>
+    <column id="43" parent="22" name="rating">
+      <Position>7</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>880</StateNumber>
+      <DefaultExpression>0</DefaultExpression>
+    </column>
+    <column id="44" parent="22" name="tag_id">
+      <Position>8</Position>
+      <DataType>integer|0</DataType>
+      <StateNumber>957</StateNumber>
+    </column>
+    <index id="45" parent="22" name="news_pkey">
+      <ObjectId>33577</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="46" parent="22" name="news_pkey">
+      <ObjectId>33578</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>news_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="47" parent="22" name="news_image_id_fkey">
+      <ObjectId>33579</ObjectId>
+      <ColNames>image_id</ColNames>
+      <RefTableId>33543</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>image</RefTableName>
+      <RefKeyName>image_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <foreign-key id="48" parent="22" name="news_tag_id_fkey">
+      <ObjectId>41971</ObjectId>
+      <ColNames>tag_id</ColNames>
+      <RefTableId>33559</RefTableId>
+      <RefColPositions>1</RefColPositions>
+      <RefTableName>tag</RefTableName>
+      <RefKeyName>tag_pkey</RefKeyName>
+      <RefColNames>id</RefColNames>
+    </foreign-key>
+    <column id="49" parent="23" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>806</StateNumber>
+      <SequenceName>tag_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;tag_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="50" parent="23" name="name">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>806</StateNumber>
+    </column>
+    <index id="51" parent="23" name="tag_pkey">
+      <ObjectId>33563</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="52" parent="23" name="tag_pkey">
+      <ObjectId>33564</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>tag_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+    <column id="53" parent="24" name="id">
+      <Position>1</Position>
+      <DataType>integer|0</DataType>
+      <NotNull>1</NotNull>
+      <StateNumber>805</StateNumber>
+      <SequenceName>users_id_seq</SequenceName>
+      <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
+    </column>
+    <column id="54" parent="24" name="login">
+      <Position>2</Position>
+      <DataType>varchar(30)|0</DataType>
+      <StateNumber>805</StateNumber>
+    </column>
+    <column id="55" parent="24" name="pass">
+      <Position>3</Position>
+      <DataType>varchar(90)|0</DataType>
+      <StateNumber>881</StateNumber>
+    </column>
+    <column id="56" parent="24" name="admin_flag">
+      <Position>4</Position>
+      <DataType>boolean|0</DataType>
+      <StateNumber>862</StateNumber>
+      <DefaultExpression>false</DefaultExpression>
+    </column>
+    <index id="57" parent="24" name="users_pkey">
+      <ObjectId>33555</ObjectId>
+      <ColNames>id</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="58" parent="24" name="users_pkey">
+      <ObjectId>33556</ObjectId>
+      <ColNames>id</ColNames>
+      <UnderlyingIndexName>users_pkey</UnderlyingIndexName>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>
